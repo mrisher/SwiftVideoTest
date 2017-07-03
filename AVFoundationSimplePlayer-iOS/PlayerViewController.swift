@@ -126,17 +126,41 @@ class PlayerViewController: UIViewController {
         
         playerView.playerLayer.player = player
         
-        let movieURL = Bundle.main.url(forResource: "UNIntro_Scene1", withExtension: "mov")!
+        let movieURL = Bundle.main.url(forResource: "UNIntro_tc", withExtension: "mov")!
         asset = AVURLAsset(url: movieURL, options: nil)
         
         // set some break times
-        let times = [NSValue(time: CMTimeMake(7, 2))]       // 3.5 seconds
+        let times = [
+            NSValue(time: CMTimeMake(35, 10)),                  // 3.5s = prompt for microphone
+            NSValue(time: CMTimeMake(40, 10))                   // 4.0s = loop back to 3.0 for idle
+        ]
         
-        // Make sure we don't have a strong reference cycle by only capturing self as weak.
+        // add
         breakObserverToken = player.addBoundaryTimeObserver(forTimes: times, queue: DispatchQueue.main, using: {
+            // Make sure we don't have a strong reference cycle by only capturing self as weak.
             //[weak self]
-            self.currentTime = 1.0
-            self.player.play()
+            
+            NSLog("addBoundaryTimeObserver -> currentTime: \(self.currentTime).")
+            let time = self.currentTime
+            if (time >= 3.5 && time < 4.0) {
+                let audioAllowed = self.loadRecordingUI()
+                if (audioAllowed) {
+                    self.currentTime = 6.0
+                    self.player.play()
+                }
+                else {
+                    self.currentTime = 10.0
+                    self.player.play()
+                }
+            }
+            else if (time >= 4.0 && time < 6.0) {
+                self.currentTime = 3.6
+                self.player.play()
+            }
+            else {
+                NSLog("Error: addBoundaryTimeObserver called with undefined time == \(time)")
+            }
+            
         })
         
         let interval = CMTimeMake(1, 1)
@@ -157,6 +181,10 @@ class PlayerViewController: UIViewController {
         if let timeObserverToken = timeObserverToken {
             player.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
+        }
+        if let breakObserverToken = breakObserverToken {
+            player.removeTimeObserver(breakObserverToken)
+            self.breakObserverToken = nil
         }
         
         player.pause()
@@ -263,6 +291,39 @@ class PlayerViewController: UIViewController {
     @objc func loopBackToIdle() {
         currentTime = 3.0
         player.play()
+    }
+    
+    func loadRecordingUI() -> Bool {
+        let recordingSession = AVAudioSession.sharedInstance()
+        var success = false
+        
+        do {
+            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try recordingSession.setActive(true)
+            NSLog("loadRecordingUI() looking for recording permission")
+            recordingSession.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async {
+                    if allowed {
+                        self.audioSuccess()
+                        success = true
+                    } else {
+                        NSLog("Audio not allowed")
+                        self.audioFail()
+                    }
+                }
+            }
+        } catch {
+            self.audioFail()
+        }
+        return success
+    }
+    
+    func audioSuccess() {
+        NSLog("audioSuccess()")
+    }
+    
+    func audioFail() {
+        NSLog("audioFail()")
     }
     
     @IBAction func timeSliderDidChange(_ sender: UISlider) {

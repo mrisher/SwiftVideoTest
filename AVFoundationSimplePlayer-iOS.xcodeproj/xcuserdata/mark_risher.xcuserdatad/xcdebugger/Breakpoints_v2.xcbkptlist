@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520813991.007221"
+            timestampString = "520817277.917747"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "391"
-            endingLineNumber = "391"
-            landmarkName = "PlayerViewController"
-            landmarkType = "3">
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "handleErrorWithMessage(_:error:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,13 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520813991.009215"
+            timestampString = "520817277.918256"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "391"
-            endingLineNumber = "391"
-            landmarkName = "PlayerViewController"
-            landmarkType = "3">
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "handleErrorWithMessage(_:error:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,13 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520813991.010348"
+            timestampString = "520817277.918406"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "391"
-            endingLineNumber = "391"
-            landmarkName = "PlayerViewController"
-            landmarkType = "3">
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "handleErrorWithMessage(_:error:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,13 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520813991.011312"
+            timestampString = "520817277.918538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "391"
-            endingLineNumber = "391"
-            landmarkName = "PlayerViewController"
-            landmarkType = "3">
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "handleErrorWithMessage(_:error:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -10,11 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520810443.595077"
+            timestampString = "520813991.007221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "381"
-            endingLineNumber = "381">
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "PlayerViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -24,11 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520810443.59693"
+            timestampString = "520813991.009215"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "381"
-            endingLineNumber = "381">
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "PlayerViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -38,11 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520810443.598211"
+            timestampString = "520813991.010348"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "381"
-            endingLineNumber = "381">
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "PlayerViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -52,11 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520810443.599447"
+            timestampString = "520813991.011312"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "381"
-            endingLineNumber = "381">
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "PlayerViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

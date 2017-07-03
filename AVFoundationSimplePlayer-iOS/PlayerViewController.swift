@@ -82,6 +82,7 @@ class PlayerViewController: UIViewController {
         method.
     */
     private var timeObserverToken: Any?
+    private var breakObserverToken: Any?
 
     private var playerItem: AVPlayerItem? = nil {
         didSet {
@@ -125,10 +126,19 @@ class PlayerViewController: UIViewController {
         
         playerView.playerLayer.player = player
         
-        let movieURL = Bundle.main.url(forResource: "testing123", withExtension: "mov")!
+        let movieURL = Bundle.main.url(forResource: "UNIntro_Scene1", withExtension: "mov")!
         asset = AVURLAsset(url: movieURL, options: nil)
         
+        // set some break times
+        let times = [NSValue(time: CMTimeMake(7, 2))]       // 3.5 seconds
+        
         // Make sure we don't have a strong reference cycle by only capturing self as weak.
+        breakObserverToken = player.addBoundaryTimeObserver(forTimes: times, queue: DispatchQueue.main, using: {
+            //[weak self]
+            self.currentTime = 1.0
+            self.player.play()
+        })
+        
         let interval = CMTimeMake(1, 1)
         timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [unowned self] time in
             let timeElapsed = Float(CMTimeGetSeconds(time))

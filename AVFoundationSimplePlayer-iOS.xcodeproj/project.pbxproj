@@ -311,7 +311,7 @@
 				DEVELOPMENT_TEAM = C7H3BXZ5F7;
 				INFOPLIST_FILE = "AVFoundationSimplePlayer-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.complicity.swiftdemo005;
+				PRODUCT_BUNDLE_IDENTIFIER = com.complicity.swiftdemo007;
 				PRODUCT_NAME = "AVFoundationSimplePlayer-Swift";
 				PROVISIONING_PROFILE = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
@@ -327,7 +327,7 @@
 				DEVELOPMENT_TEAM = C7H3BXZ5F7;
 				INFOPLIST_FILE = "AVFoundationSimplePlayer-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.complicity.swiftdemo005;
+				PRODUCT_BUNDLE_IDENTIFIER = com.complicity.swiftdemo007;
 				PRODUCT_NAME = "AVFoundationSimplePlayer-Swift";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

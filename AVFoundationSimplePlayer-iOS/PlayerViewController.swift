@@ -83,6 +83,14 @@ class PlayerViewController: UIViewController {
     */
     private var timeObserverToken: Any?
     private var breakObserverToken: Any?
+    
+    enum AudioPermissionsState {
+        case Approved
+        case Denied
+        case Unknown
+    }
+    
+    private var audioAllowed : AudioPermissionsState = AudioPermissionsState.Unknown
 
     private var playerItem: AVPlayerItem? = nil {
         didSet {
@@ -140,26 +148,7 @@ class PlayerViewController: UIViewController {
             // Make sure we don't have a strong reference cycle by only capturing self as weak.
             //[weak self]
             
-            NSLog("addBoundaryTimeObserver -> currentTime: \(self.currentTime).")
-            let time = self.currentTime
-            if (time >= 3.5 && time < 4.0) {
-                let audioAllowed = self.loadRecordingUI()
-                if (audioAllowed) {
-                    self.currentTime = 6.0
-                    self.player.play()
-                }
-                else {
-                    self.currentTime = 10.0
-                    self.player.play()
-                }
-            }
-            else if (time >= 4.0 && time < 6.0) {
-                self.currentTime = 3.6
-                self.player.play()
-            }
-            else {
-                NSLog("Error: addBoundaryTimeObserver called with undefined time == \(time)")
-            }
+            self.manageBoundaryTimes()
             
         })
         
@@ -293,29 +282,47 @@ class PlayerViewController: UIViewController {
         player.play()
     }
     
-    func loadRecordingUI() -> Bool {
+    func loadRecordingUI() {
         let recordingSession = AVAudioSession.sharedInstance()
-        var success = false
         
-        do {
-            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-            try recordingSession.setActive(true)
-            NSLog("loadRecordingUI() looking for recording permission")
-            recordingSession.requestRecordPermission() { [unowned self] allowed in
-                DispatchQueue.main.async {
-                    if allowed {
-                        self.audioSuccess()
-                        success = true
-                    } else {
-                        NSLog("Audio not allowed")
-                        self.audioFail()
-                    }
-                }
-            }
-        } catch {
+        // display the fake dialog
+        
+        // create the alert
+        let alert = UIAlertController(title: "Allow Complicity to access the microphone?", message: "Enable conversation with characters in the game", preferredStyle: UIAlertControllerStyle.alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Allow", style: UIAlertActionStyle.default, handler: {action in
+            self.audioSuccess()
+            self.audioAllowed = AudioPermissionsState.Approved
+        }))
+        alert.addAction(UIAlertAction(title: "Don't Allow", style: UIAlertActionStyle.cancel, handler: {action in
             self.audioFail()
-        }
-        return success
+            self.audioAllowed = AudioPermissionsState.Denied
+        }))
+        
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
+//        do {
+//            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+//            try recordingSession.setActive(true)
+//            NSLog("loadRecordingUI() looking for recording permission")
+//            recordingSession.requestRecordPermission() { [unowned self] allowed in
+//                DispatchQueue.main.async {
+//                    if allowed {
+//                        self.audioSuccess()
+//                        self.audioAllowed = AudioPermissionsState.Approved
+//                    } else {
+//                        NSLog("Audio not allowed")
+//                        self.audioFail()
+//                        self.audioAllowed = AudioPermissionsState.Denied
+//                    }
+//                }
+//            }
+//        } catch {
+//            self.audioFail()
+//            self.audioAllowed = AudioPermissionsState.Denied
+//        }
     }
     
     func audioSuccess() {
@@ -324,6 +331,30 @@ class PlayerViewController: UIViewController {
     
     func audioFail() {
         NSLog("audioFail()")
+    }
+    
+    
+    /// manages the various BoundaryTime callbacks
+    func manageBoundaryTimes() {
+        NSLog("addBoundaryTimeObserver -> currentTime: \(self.currentTime).")
+        let time = self.currentTime
+        if (time >= 3.5 && time < 4.0) {
+            self.loadRecordingUI()
+        }
+        else if (time >= 4.0 && time < 6.0) {
+            if (self.audioAllowed == AudioPermissionsState.Approved) {
+                self.player.seek(to: CMTimeMake(6,1), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+            }
+            else if (self.audioAllowed == AudioPermissionsState.Denied){
+                self.player.seek(to: CMTimeMake(10,1), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+            }
+            else {
+                self.player.seek(to: CMTimeMake(36, 10), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+            }
+        }
+        else {
+            NSLog("Error: addBoundaryTimeObserver called with undefined time == \(time)")
+        }
     }
     
     @IBAction func timeSliderDidChange(_ sender: UISlider) {

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520817277.917747"
+            timestampString = "520820419.044158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
+            startingLineNumber = "472"
+            endingLineNumber = "472"
             landmarkName = "handleErrorWithMessage(_:error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520817277.918256"
+            timestampString = "520820419.045404"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
+            startingLineNumber = "472"
+            endingLineNumber = "472"
             landmarkName = "handleErrorWithMessage(_:error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520817277.918406"
+            timestampString = "520820419.04671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
+            startingLineNumber = "472"
+            endingLineNumber = "472"
             landmarkName = "handleErrorWithMessage(_:error:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AVFoundationSimplePlayer-iOS/PlayerViewController.swift"
-            timestampString = "520817277.918538"
+            timestampString = "520820419.047327"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
+            startingLineNumber = "472"
+            endingLineNumber = "472"
             landmarkName = "handleErrorWithMessage(_:error:)"
             landmarkType = "7">
          </BreakpointContent>

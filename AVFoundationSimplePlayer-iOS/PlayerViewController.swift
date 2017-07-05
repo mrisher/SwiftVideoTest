@@ -16,6 +16,15 @@ import UIKit
 */
 private var playerViewControllerKVOContext = 0
 
+
+/// approx: Find if the value is near enough to the centroid
+///
+/// - Returns: true if close enough
+func approx(_ value: Double, _ centroid: Double) -> Bool {
+    let radius: Double = 0.2
+    return (value > (centroid - radius) && value < (centroid + radius))
+}
+
 class PlayerViewController: UIViewController {
     // MARK: Properties
     
@@ -26,6 +35,7 @@ class PlayerViewController: UIViewController {
     ]
 
     @objc let player = AVPlayer()
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
 
     var currentTime: Double {
         get {
@@ -84,13 +94,14 @@ class PlayerViewController: UIViewController {
     private var timeObserverToken: Any?
     private var breakObserverToken: Any?
     
-    enum AudioPermissionsState {
+    enum PermissionsState {
         case Approved
         case Denied
         case Unknown
     }
     
-    private var audioAllowed : AudioPermissionsState = AudioPermissionsState.Unknown
+    private var audioAllowed : PermissionsState = PermissionsState.Unknown
+    private var verbalApproval: PermissionsState = PermissionsState.Unknown
 
     private var playerItem: AVPlayerItem? = nil {
         didSet {
@@ -134,13 +145,19 @@ class PlayerViewController: UIViewController {
         
         playerView.playerLayer.player = player
         
-        let movieURL = Bundle.main.url(forResource: "UNIntro_tc", withExtension: "mov")!
+        let movieURL = Bundle.main.url(forResource: "Scene1_tc", withExtension: "mov")!
         asset = AVURLAsset(url: movieURL, options: nil)
         
         // set some break times
         let times = [
-            NSValue(time: CMTimeMake(35, 10)),                  // 3.5s = prompt for microphone
-            NSValue(time: CMTimeMake(40, 10))                   // 4.0s = loop back to 3.0 for idle
+            NSValue(time: CMTimeMake(51, 10)),                    // 5.1 prompt for mic
+            NSValue(time: CMTimeMake(123, 10)),                   // 12.3 loop back to 5.1
+                                                                  // 12.8s = audio denied
+            NSValue(time: CMTimeMake(154, 10)),                   // 15.4s = end of block 2
+                                                                  // 16.0s = begin block 3
+            NSValue(time: CMTimeMake(263, 10)),                   // 26.3 = trust you, loop back to 20.1
+                                                                  // 26.5 = begin block 4
+            NSValue(time: CMTimeMake(350, 10)),                   // 35.0s = end
         ]
         
         // add
@@ -153,12 +170,18 @@ class PlayerViewController: UIViewController {
         })
         
         let interval = CMTimeMake(1, 1)
-        timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [unowned self] time in
-            let timeElapsed = Float(CMTimeGetSeconds(time))
-            
-//            self.timeSlider.value = Float(timeElapsed)
-//            self.startTimeLabel.text = self.createTimeString(time: timeElapsed)
-        }
+//        timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [unowned self] time in
+//            let timeElapsed = Float(CMTimeGetSeconds(time))
+//
+////            self.timeSlider.value = Float(timeElapsed)
+////            self.startTimeLabel.text = self.createTimeString(time: timeElapsed)
+//        }
+        
+        // add a blur
+        blurView.effect = UIBlurEffect(style: .dark)
+        blurView.alpha = 1.0
+        blurView.frame = playerView.bounds
+        playerView.addSubview(blurView)
         
         // start automatically
         player.play()
@@ -293,11 +316,11 @@ class PlayerViewController: UIViewController {
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "Allow", style: UIAlertActionStyle.default, handler: {action in
             self.audioSuccess()
-            self.audioAllowed = AudioPermissionsState.Approved
+            self.audioAllowed = PermissionsState.Approved
         }))
         alert.addAction(UIAlertAction(title: "Don't Allow", style: UIAlertActionStyle.cancel, handler: {action in
             self.audioFail()
-            self.audioAllowed = AudioPermissionsState.Denied
+            self.audioAllowed = PermissionsState.Denied
         }))
         
         // show the alert
@@ -311,17 +334,17 @@ class PlayerViewController: UIViewController {
 //                DispatchQueue.main.async {
 //                    if allowed {
 //                        self.audioSuccess()
-//                        self.audioAllowed = AudioPermissionsState.Approved
+//                        self.audioAllowed = PermissionsState.Approved
 //                    } else {
 //                        NSLog("Audio not allowed")
 //                        self.audioFail()
-//                        self.audioAllowed = AudioPermissionsState.Denied
+//                        self.audioAllowed = PermissionsState.Denied
 //                    }
 //                }
 //            }
 //        } catch {
 //            self.audioFail()
-//            self.audioAllowed = AudioPermissionsState.Denied
+//            self.audioAllowed = PermissionsState.Denied
 //        }
     }
     
@@ -333,24 +356,51 @@ class PlayerViewController: UIViewController {
         NSLog("audioFail()")
     }
     
-    
     /// manages the various BoundaryTime callbacks
     func manageBoundaryTimes() {
+        
+        /*
+        NSValue(time: CMTimeMake(51, 10)),                    // 5.1 prompt for mic
+        NSValue(time: CMTimeMake(123, 10)),                   // 12.3 loop back to 5.3
+                                                             // 12.8s = audio denied
+        NSValue(time: CMTimeMake(154, 10)),                   // 15.4s = end of block 2
+                                                             // 16.0s = begin block 3
+        NSValue(time: CMTimeMake(263, 10)),                   // 26.3 = trust you, loop back to 20.1
+                                                             // 26.5 = begin block 4
+        NSValue(time: CMTimeMake(350, 10)),                   // 35.0s = end
+        */
+        
         NSLog("addBoundaryTimeObserver -> currentTime: \(self.currentTime).")
         let time = self.currentTime
-        if (time >= 3.5 && time < 4.0) {
+        
+        if (approx(time, 5.1)) {
             self.loadRecordingUI()
         }
-        else if (time >= 4.0 && time < 6.0) {
-            if (self.audioAllowed == AudioPermissionsState.Approved) {
-                self.player.seek(to: CMTimeMake(6,1), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+        else if (approx(time, 12.3)) {
+            if (self.audioAllowed == PermissionsState.Approved) {
+                self.player.seek(to: CMTimeMake(160,10), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
             }
-            else if (self.audioAllowed == AudioPermissionsState.Denied){
-                self.player.seek(to: CMTimeMake(10,1), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+            else if (self.audioAllowed == PermissionsState.Denied){
+                self.player.seek(to: CMTimeMake(128,10), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+            }
+            else /* if StatePermission.Unknown */ {
+                self.player.seek(to: CMTimeMake(53,10), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+            }
+        }
+        else if (approx(time, 15.4)) {
+            self.player.pause()
+        }
+        else if (approx(time, 26.3)) {
+            if (verbalApproval == PermissionsState.Approved) {
+                self.player.seek(to: CMTimeMake(265,10), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
             }
             else {
-                self.player.seek(to: CMTimeMake(36, 10), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+                self.player.seek(to: CMTimeMake(201,10), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+                verbalApproval = PermissionsState.Approved     // hacking approval, so just loop once
             }
+        }
+        else if (approx(time, 35.0)) {
+            self.player.pause()
         }
         else {
             NSLog("Error: addBoundaryTimeObserver called with undefined time == \(time)")

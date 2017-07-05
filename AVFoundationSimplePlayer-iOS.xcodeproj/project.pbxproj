@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF0F65CE1F0B28F4008ACD03 /* Scene1_tc.mov in Resources */ = {isa = PBXBuildFile; fileRef = CF0F65CD1F0B28F4008ACD03 /* Scene1_tc.mov */; };
 		CF38B1AB1EFED366001901A0 /* testing123.mov in Resources */ = {isa = PBXBuildFile; fileRef = CF38B1AA1EFED366001901A0 /* testing123.mov */; };
 		CFF8AED31F0AF0FA00AD8042 /* PhoneHangUp.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF8AED21F0AF0FA00AD8042 /* PhoneHangUp.png */; };
 		CFF8AED51F0AF22D00AD8042 /* UNIntro_Scene1.mov in Resources */ = {isa = PBXBuildFile; fileRef = CFF8AED41F0AF22C00AD8042 /* UNIntro_Scene1.mov */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CF0F65CD1F0B28F4008ACD03 /* Scene1_tc.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = Scene1_tc.mov; path = ../../../Downloads/Scene1_tc.mov; sourceTree = "<group>"; };
 		CF38B1AA1EFED366001901A0 /* testing123.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = testing123.mov; sourceTree = "<group>"; };
 		CFF8AED21F0AF0FA00AD8042 /* PhoneHangUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PhoneHangUp.png; path = ../../../Downloads/PhoneHangUp.png; sourceTree = "<group>"; };
 		CFF8AED41F0AF22C00AD8042 /* UNIntro_Scene1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = UNIntro_Scene1.mov; path = ../../../Downloads/UNIntro_Scene1.mov; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 		D2010EFC1B0E8ACB00BD0BDF /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				CF0F65CD1F0B28F4008ACD03 /* Scene1_tc.mov */,
 				CFF8AED61F0AFEEF00AD8042 /* UNIntro_tc.mov */,
 				CFF8AED41F0AF22C00AD8042 /* UNIntro_Scene1.mov */,
 				CFF8AED21F0AF0FA00AD8042 /* PhoneHangUp.png */,
@@ -163,6 +166,7 @@
 				D274899C1B1CD4EB0020D82A /* Localizable.strings in Resources */,
 				D2385B4B1AF5181400DC8ADE /* Main.storyboard in Resources */,
 				CFF8AED31F0AF0FA00AD8042 /* PhoneHangUp.png in Resources */,
+				CF0F65CE1F0B28F4008ACD03 /* Scene1_tc.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

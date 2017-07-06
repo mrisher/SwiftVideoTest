@@ -178,10 +178,10 @@ class PlayerViewController: UIViewController {
 //        }
         
         // add a blur
-//        blurView.effect = UIBlurEffect(style: .dark)
-//        blurView.alpha = 1.0
-//        blurView.frame = playerView.bounds
-//        playerView.addSubview(blurView)
+        blurView.effect = UIBlurEffect(style: .light)
+        blurView.alpha = 1.0
+        blurView.frame = playerView.bounds
+        playerView.addSubview(blurView)
         
         // start automatically
         player.play()
